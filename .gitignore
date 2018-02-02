@@ -18,6 +18,7 @@ public_html/wp-content/advanced-cache.php
 public_html/wp-content/wp-cache-config.php
 public_html/wp-content/cache/*
 public_html/wp-content/cache/supercache/*
+public_html/wp-content/themes/*
 
 # wp core (as of 3.4.1)
 public_html/db-config.php
