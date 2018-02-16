@@ -19,11 +19,27 @@ if [ ! -d "${VVV_PATH_TO_SITE}/public_html/wp-admin" ]; then
   if [ ! -d "${VVV_PATH_TO_SITE}/public_html" ]; then
     mkdir ${VVV_PATH_TO_SITE}/public_html
   fi
-  
+
   cd ${VVV_PATH_TO_SITE}/public_html
-  
+
   wp core download --path="${VVV_PATH_TO_SITE}/public_html" --allow-root
-  wp core config --dbname="${VVV_SITE_NAME}" --dbuser=wp --dbpass=wp --quiet --allow-root
-  wp core install --url="${VVV_SITE_NAME}.local" --title="premier projet" --admin_user=admin --admin_password=password --admin_email=antoine@firmecreative.com --allow-root
-  
+  wp core config --dbname="${VVV_SITE_NAME}" --dbuser=wp --dbpass=wp --dbprefix=9YhviXYolh_ --quiet --allow-root
+  # wp core install --url="${VVV_SITE_NAME}.local" --title="Dansez" --admin_user=admin --admin_password=password --admin_email=antoine@firmecreative.com --allow-root
+  wp db import ../dansez_dev_db.sql --allow-root
+
+# Modification de l'url de la BD
+  wp search-replace 'https://dansez.firmecreative.com' 'http://dansez.local' --allow-root
+  wp search-replace 'http://dansez.firmecreative.com' 'http://dansez.local' --allow-root
+  wp search-replace 'http://www.dansez.firmecreative.com' 'http://dansez.local' --allow-root
+  wp search-replace 'https://www.dansez.firmecreative.com' 'http://dansez.local' --allow-root
+  wp search-replace '.firmecreative.com' '.local' --allow-root
+
+# Creation du user
+  wp user create admin admin@localhost.local --role=administrator --user_pass=password --allow-root
+
+# Installation des plug-in
+  wp plugin install all-404-redirect-to-homepage --activate --allow-root
+  wp plugin install wordfence --activate --allow-root
+  wp plugin install wp-force-login --activate --allow-root
+
 fi
